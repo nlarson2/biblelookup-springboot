@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.larson.biblelookup.Exception.VerseNotFoundException;
 import com.larson.biblelookup.Models.Bible;
 import com.larson.biblelookup.Models.Book;
 import com.larson.biblelookup.Models.Verse;
@@ -41,7 +42,7 @@ public class VerseService {
                         Book newBook = new Book(verseRequest.getBookName());
                         return bookRepository.save(newBook);
                     });
-        
+
         Verse verse = new Verse(bible, book, verseRequest.getChapterNum(), verseRequest.getVerseNum(), verseRequest.getScripture());
         return verseRepository.save(verse);
 
@@ -61,7 +62,7 @@ public class VerseService {
             () -> new ResourceNotFoundException("Book  \""+ bookName +"\" not found"));
 
         Verse verse = verseRepository.findByChapterVerse(bible, book, chapterNum, verseNum).orElseThrow(
-            () -> new ResourceNotFoundException(String.format("Verse \"%s %s %d:%d\" not found ",bibleName, bookName, chapterNum, verseNum)));
+            () -> new VerseNotFoundException(String.format("Verse reference does not exist: %s %s %d:%d", bibleName, bookName, chapterNum, verseNum)));
         
         VerseSingleResponse response = new VerseSingleResponse();
         response.setBibleName(bibleName);
@@ -90,7 +91,7 @@ public class VerseService {
         List<String> verseStrings = verses.stream().map(Verse::getScripture).collect(Collectors.toList());
 
         if(verseStrings.isEmpty()) {
-            throw new ResourceNotFoundException("Chapter/Verse doesnt exist");
+            throw new VerseNotFoundException(String.format("Verse reference does not exist: %s %s %d:%d-%d", bibleName, bookName, chapterNum, verseNumStart, veresNumEnd));
         }
 
         VerseListResponse response = new VerseListResponse();
