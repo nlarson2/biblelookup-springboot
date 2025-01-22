@@ -47,27 +47,6 @@ public class VerseController {
         Verse createdVerse = verseService.createVerse(verseRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(createdVerse);
     }
-
-    @GetMapping("/{bible}/{book}/{chapter}/{verse}")
-    public ResponseEntity<Verse> getSingleVerse(
-        @PathVariable("bible") String bibleName, 
-        @PathVariable("book") String bookName, 
-        @PathVariable("chapter") int chapterNum,
-        @PathVariable("verse") int verseNum,
-        @RequestParam String param
-    ) {
-
-        Bible bible = bibleRepository.findByName(bibleName).orElseThrow(
-            () -> new ResourceNotFoundException("Bible \""+ bibleName +"\" not found"));
-
-        Book book = bookRepository.findByName(bookName).orElseThrow(
-            () -> new ResourceNotFoundException("Book  \""+ bookName +"\" not found"));
-
-        Verse verse = verseRepository.findByChapterVerse(bible, book, chapterNum, verseNum).orElseThrow(
-            () -> new ResourceNotFoundException(String.format("Verse \"%s %s %d:%d\" not found ",bibleName, bookName, chapterNum, verseNum)));
-
-        return ResponseEntity.status(HttpStatus.FOUND).body(verse);
-    }
     
     @GetMapping("/verse")
     public ResponseEntity<VerseSingleResponse> getSingleVerse(
