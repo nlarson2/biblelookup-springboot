@@ -16,14 +16,9 @@ import com.larson.biblelookup.dto.VerseSingleRequest;
 import com.larson.biblelookup.dto.VerseSingleResponse;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-
-import java.util.Optional;
-import java.util.concurrent.atomic.AtomicLong;
 
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
