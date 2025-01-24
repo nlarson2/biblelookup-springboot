@@ -1,11 +1,12 @@
-package com.larson.biblelookup.Services;
+package com.larson.biblelookup.Verse;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.larson.biblelookup.Exception.BibleNotFoundException;
+import com.larson.biblelookup.Exception.BookNotFoundException;
 import com.larson.biblelookup.Exception.VerseNotFoundException;
 import com.larson.biblelookup.Models.Bible;
 import com.larson.biblelookup.Models.Book;
@@ -13,11 +14,11 @@ import com.larson.biblelookup.Models.Verse;
 import com.larson.biblelookup.Repositories.BibleRepository;
 import com.larson.biblelookup.Repositories.BookRepository;
 import com.larson.biblelookup.Repositories.VerseRepository;
-import com.larson.biblelookup.dto.VerseCreationRequest;
-import com.larson.biblelookup.dto.VerseListRequest;
-import com.larson.biblelookup.dto.VerseListResponse;
-import com.larson.biblelookup.dto.VerseSingleRequest;
-import com.larson.biblelookup.dto.VerseSingleResponse;
+import com.larson.biblelookup.Verse.dto.VerseCreationRequest;
+import com.larson.biblelookup.Verse.dto.VerseListRequest;
+import com.larson.biblelookup.Verse.dto.VerseListResponse;
+import com.larson.biblelookup.Verse.dto.VerseSingleRequest;
+import com.larson.biblelookup.Verse.dto.VerseSingleResponse;
 
 @Service
 public class VerseService {
@@ -56,10 +57,10 @@ public class VerseService {
         Integer verseNum = verseRequest.getVerseNum();
 
         Bible bible = bibleRepository.findByName(bibleName).orElseThrow(
-            () -> new ResourceNotFoundException("Bible \""+ bibleName +"\" not found"));
+            () -> new BibleNotFoundException("Bible \""+ bibleName +"\" not found"));
 
         Book book = bookRepository.findByName(bookName).orElseThrow(
-            () -> new ResourceNotFoundException("Book  \""+ bookName +"\" not found"));
+            () -> new BookNotFoundException("Book  \""+ bookName +"\" not found"));
 
         Verse verse = verseRepository.findByChapterVerse(bible, book, chapterNum, verseNum).orElseThrow(
             () -> new VerseNotFoundException(String.format("Verse reference does not exist: %s %s %d:%d", bibleName, bookName, chapterNum, verseNum)));
@@ -82,10 +83,10 @@ public class VerseService {
         Integer veresNumEnd = verseRequest.getVerseNumEnd();
 
         Bible bible = bibleRepository.findByName(bibleName).orElseThrow(
-            () -> new ResourceNotFoundException("Bible \""+ bibleName +"\" not found"));
+            () -> new BibleNotFoundException("Bible \""+ bibleName +"\" not found"));
 
         Book book = bookRepository.findByName(bookName).orElseThrow(
-            () -> new ResourceNotFoundException("Book  \""+ bookName +"\" not found"));
+            () -> new BookNotFoundException("Book  \""+ bookName +"\" not found"));
         
         List<Verse> verses =  verseRepository.findVersesByBibleBookChaterVerseRange(bible, book, chapterNum, verseNumStart, veresNumEnd);
         List<String> verseStrings = verses.stream().map(Verse::getScripture).collect(Collectors.toList());

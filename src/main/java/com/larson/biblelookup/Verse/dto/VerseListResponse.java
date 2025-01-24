@@ -1,4 +1,4 @@
-package com.larson.biblelookup.dto;
+package com.larson.biblelookup.Verse.dto;
 
 import lombok.Getter;
 import lombok.Setter;

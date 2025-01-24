@@ -1,16 +1,13 @@
-package com.larson.biblelookup.Controllers;
+package com.larson.biblelookup.Verse;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.larson.biblelookup.Exception.BibleNotFoundException;
-import com.larson.biblelookup.Exception.VerseNotFoundException;
 import com.larson.biblelookup.Models.Verse;
-import com.larson.biblelookup.Services.VerseService;
-import com.larson.biblelookup.dto.VerseCreationRequest;
-import com.larson.biblelookup.dto.VerseListRequest;
-import com.larson.biblelookup.dto.VerseListResponse;
-import com.larson.biblelookup.dto.VerseSingleRequest;
-import com.larson.biblelookup.dto.VerseSingleResponse;
+import com.larson.biblelookup.Verse.dto.VerseCreationRequest;
+import com.larson.biblelookup.Verse.dto.VerseListRequest;
+import com.larson.biblelookup.Verse.dto.VerseListResponse;
+import com.larson.biblelookup.Verse.dto.VerseSingleRequest;
+import com.larson.biblelookup.Verse.dto.VerseSingleResponse;
 
 import lombok.AllArgsConstructor;
 

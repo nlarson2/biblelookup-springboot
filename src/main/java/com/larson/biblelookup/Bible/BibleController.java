@@ -1,4 +1,4 @@
-package com.larson.biblelookup.Controllers;
+package com.larson.biblelookup.Bible;
 
 import org.springframework.web.bind.annotation.RestController;
 

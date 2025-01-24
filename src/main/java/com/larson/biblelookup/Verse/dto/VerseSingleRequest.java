@@ -1,15 +1,16 @@
-package com.larson.biblelookup.dto;
+package com.larson.biblelookup.Verse.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter
 @Setter
-public class VerseCreationRequest {
+@Getter
+@AllArgsConstructor
+ public class VerseSingleRequest {
     private String bibleName;
     private String bookName;
     private Integer chapterNum;
     private Integer verseNum;
-    private String scripture;
-    // Getters and Setters
+    private String verse;
 }

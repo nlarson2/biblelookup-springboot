@@ -1,14 +1,14 @@
-package com.larson.biblelookup.dto;
+package com.larson.biblelookup.Verse.dto;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Setter
 @Getter
-public class VerseSingleResponse {
+public class VerseListRequest {
     private String bibleName;
     private String bookName;
     private Integer chapterNum;
-    private Integer verseNum;
-    private String verse;
+    private Integer verseNumStart;
+    private Integer verseNumEnd;
 }
