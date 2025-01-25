@@ -1,6 +1,7 @@
 package com.larson.biblelookup.Verse;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.larson.biblelookup.Exception.BibleNotFoundException;
 import com.larson.biblelookup.Exception.BookNotFoundException;
 import com.larson.biblelookup.Exception.VerseNotFoundException;
+import com.larson.biblelookup.Exception.VerseRequestFormattingException;
 import com.larson.biblelookup.Models.Bible;
 import com.larson.biblelookup.Models.Book;
 import com.larson.biblelookup.Models.Verse;
@@ -80,7 +82,20 @@ public class VerseService {
         String bookName = verseRequest.getBookName();
         Integer chapterNum = verseRequest.getChapterNum();
         Integer verseNumStart = verseRequest.getVerseNumStart();
-        Integer veresNumEnd = verseRequest.getVerseNumEnd();
+        Integer verseNumEnd;
+
+        Optional<Integer> tmpVerseNumEnd = verseRequest.getVerseNumEnd();
+        if(tmpVerseNumEnd != null) {
+            verseNumEnd = tmpVerseNumEnd.get();
+        } else {
+            verseNumEnd = verseNumStart;
+        }
+
+        if(verseNumEnd < verseNumStart){
+            throw new VerseRequestFormattingException(
+                String.format("Verse formattting error: %d-%d is not a valid range",
+                    verseNumStart, verseNumEnd));
+        }
 
         Bible bible = bibleRepository.findByName(bibleName).orElseThrow(
             () -> new BibleNotFoundException("Bible \""+ bibleName +"\" not found"));
@@ -88,11 +103,13 @@ public class VerseService {
         Book book = bookRepository.findByName(bookName).orElseThrow(
             () -> new BookNotFoundException("Book  \""+ bookName +"\" not found"));
         
-        List<Verse> verses =  verseRepository.findVersesByBibleBookChaterVerseRange(bible, book, chapterNum, verseNumStart, veresNumEnd);
+        List<Verse> verses =  verseRepository.findVersesByBibleBookChaterVerseRange(bible, book, chapterNum, verseNumStart, verseNumEnd);
         List<String> verseStrings = verses.stream().map(Verse::getScripture).collect(Collectors.toList());
 
         if(verseStrings.isEmpty()) {
-            throw new VerseNotFoundException(String.format("Verse reference does not exist: %s %s %d:%d-%d", bibleName, bookName, chapterNum, verseNumStart, veresNumEnd));
+            throw new VerseNotFoundException(
+                String.format("Verse reference does not exist: %s %s %d:%d-%d", 
+                    bibleName, bookName, chapterNum, verseNumStart, verseNumEnd));
         }
 
         VerseListResponse response = new VerseListResponse();

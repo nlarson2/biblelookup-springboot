@@ -48,10 +48,10 @@ public class VerseController {
         return ResponseEntity.status(HttpStatus.FOUND).body(verses);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<String> handleVerseNotFound(Exception ex) {
-        String reason = ex.getMessage(); // Assuming your exception has a custom message
-        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(reason);
-    }
+    // @ExceptionHandler(Exception.class)
+    // public ResponseEntity<String> handleVerseNotFound(Exception ex) {
+    //     String reason = ex.getMessage(); // Assuming your exception has a custom message
+    //     return ResponseEntity.status(HttpStatus.NOT_FOUND).body(reason);
+    // }
        
 }

@@ -1,5 +1,7 @@
 package com.larson.biblelookup.Verse.dto;
 
+import java.util.Optional;
+
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,5 +12,5 @@ public class VerseListRequest {
     private String bookName;
     private Integer chapterNum;
     private Integer verseNumStart;
-    private Integer verseNumEnd;
+    private Optional<Integer> verseNumEnd;
 }
