@@ -15,9 +15,9 @@ public class WebSecurityConfig {
 	@Order(1)                                                        
 	public SecurityFilterChain apiFilterChain(HttpSecurity http) throws Exception {
 		http
-			.securityMatcher("/api/**")                              
+			.securityMatcher("/api/**")                             
 			.authorizeHttpRequests(authorize -> authorize
-				.anyRequest().hasRole("ADMIN")
+				.anyRequest().permitAll()
 			)
 			.httpBasic(Customizer.withDefaults());
 		return http.build();
